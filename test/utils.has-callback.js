@@ -1,6 +1,6 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { hasCallback } from '../../lib/utils'
+import { hasCallback } from '../lib/utils'
 
 describe('utils.hasCallback', () => {
 

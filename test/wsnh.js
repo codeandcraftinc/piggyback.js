@@ -1,7 +1,7 @@
 import Promise from 'lie'
 import sinon from 'sinon'
 import { expect } from 'chai'
-import wsnh from '../../lib'
+import wsnh from '../lib'
 
 describe('wsnh', () => {
 

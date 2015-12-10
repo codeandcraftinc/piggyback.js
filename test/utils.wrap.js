@@ -1,6 +1,6 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { wrap } from '../../lib/utils'
+import { wrap } from '../lib/utils'
 
 describe('utils.wrap', () => {
 

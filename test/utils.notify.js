@@ -1,7 +1,7 @@
 import Promise from 'lie'
 import sinon from 'sinon'
 import { expect } from 'chai'
-import { notify } from '../../lib/utils'
+import { notify } from '../lib/utils'
 
 describe('utils.notify', () => {
 
