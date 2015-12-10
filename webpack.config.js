@@ -4,8 +4,8 @@ module.exports = {
   entry: './lib/index.js',
   output: {
     path: './dist',
-    filename: 'wsnh.js',
-    library: 'wsnh',
+    filename: 'wayne.js',
+    library: 'wayne',
     libraryTarget: 'umd'
   },
   module: {

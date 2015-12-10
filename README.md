@@ -1,6 +1,6 @@
 [![Build Status](https://api.travis-ci.org/codeandcraftnyc/wsnh.js.svg?branch=master)](https://travis-ci.org/codeandcraftnyc/wsnh.js)
 
-# Work Smarter Not Harder
+# wsnh.js
 
 Sometimes you have a function, and sometimes that function takes a while to
 execute. Sometimes other functions invoke that function while it's already
@@ -62,7 +62,7 @@ multiple times and waiting forever for both responses. So now what?
 
 ## Cool! (The Solution)
 
-Let's update `myRequest` with `wsnh` (work smarter not harder).
+Let's update `myRequest` with `wsnh`.
 
 ```js
 function myRequest(params) {
@@ -83,8 +83,8 @@ function myRequest(params) {
 ```
 
 Now any duplicate request that happens in quick succession of the original
-will piggyback on the original's result, the API call and caching only happens
-once.
+will "piggyback" (excuse me) on the original's result, the API call and
+caching only happens once.
 
 
 

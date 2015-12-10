@@ -1,8 +1,8 @@
 {
-  "name": "wsnh",
+  "name": "wayne",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/wsnh.js",
+  "main": "dist/wayne.js",
   "scripts": {
     "start": "node_modules/gulp/bin/gulp.js",
     "test": "node_modules/gulp/bin/gulp.js test"
