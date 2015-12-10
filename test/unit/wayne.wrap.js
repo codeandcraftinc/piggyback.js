@@ -1,23 +1,23 @@
 import Promise from 'lie'
 import sinon from 'sinon'
 import { expect } from 'chai'
-import wayne from '../lib'
+import { wrap } from '../../lib/wayne'
 
-describe('wayne', () => {
+describe('wayne.wrap', () => {
 
-  it('should export a function', () => {
-    expect(wayne).to.be.a('function')
+  it('should be a function', () => {
+    expect(wrap).to.be.a('function')
   })
 
   it('should return a Promise', () => {
-    expect(wayne('1', () => {})).to.be.an.instanceOf(Promise)
+    expect(wrap('1', () => {})).to.be.an.instanceOf(Promise)
   })
 
   it('should invoke the wrapped fn once when invoked quickly', () => {
     let spy = sinon.spy()
 
     let wrapped = () => {
-      return wayne('uniquekey', () => {
+      return wrap('uniquekey', () => {
         return new Promise((resolve, reject) => {
           spy()
           setTimeout(resolve, 500)
@@ -34,7 +34,7 @@ describe('wayne', () => {
     let spy = sinon.spy()
 
     let wrapped = () => {
-      return wayne('uniquekey', () => {
+      return wrap('uniquekey', () => {
         return new Promise((resolve, reject) => {
           spy()
           setTimeout(resolve, 500)
@@ -48,7 +48,7 @@ describe('wayne', () => {
   })
 
   it('should be rejected if the promise interface is used and the main fn throws', () => {
-    let promise = wayne('1', () => {
+    let promise = wrap('1', () => {
       throw 'err'
     }).then(() => {})
 
@@ -56,7 +56,7 @@ describe('wayne', () => {
   })
 
   it('should be fulfilled if the promise interface is NOT used and the main fn throws', () => {
-    let promise = wayne('1', () => {
+    let promise = wrap('1', () => {
       throw 'err'
     })
 
@@ -66,7 +66,7 @@ describe('wayne', () => {
   it('should invoke the callback with a truthy first param if main fn throws', () => {
     let spy = sinon.spy()
 
-    wayne('1', () => {
+    wrap('1', () => {
       throw 'err'
     }, spy)
 
@@ -78,7 +78,7 @@ describe('wayne', () => {
 
   it('should invoke the callback with a falsey first param if main fn succeeds', () => {
     let spy = sinon.spy()
-    wayne('1', () => {}, spy)
+    wrap('1', () => {}, spy)
 
     setTimeout(() => {
       expect(spy.calledOnce).to.be.true

@@ -1,10 +1,10 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { hasCallback } from '../lib/utils'
+import { hasCallback } from '../../lib/wayne'
 
-describe('utils.hasCallback', () => {
+describe('wayne.hasCallback', () => {
 
-  it('should export a function', () => {
+  it('should be a function', () => {
     expect(hasCallback).to.be.a('function')
   })
 

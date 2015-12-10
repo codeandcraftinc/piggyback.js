@@ -1,11 +1,11 @@
 import Promise from 'lie'
 import sinon from 'sinon'
 import { expect } from 'chai'
-import { notify } from '../lib/utils'
+import { notify } from '../../lib/wayne'
 
-describe('utils.notify', () => {
+describe('wayne.notify', () => {
 
-  it('should export a function', () => {
+  it('should be a function', () => {
     expect(notify).to.be.a('function')
   })
 

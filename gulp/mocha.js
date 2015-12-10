@@ -10,7 +10,7 @@ module.exports = function fn() {
   src = Array.isArray(src) ? src : [src];
 
   src = [
-    'test/server/helpers.js'
+    'test/helpers.js'
   ].concat(src);
 
   return gulp.src(src)

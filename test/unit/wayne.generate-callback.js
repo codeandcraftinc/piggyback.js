@@ -1,14 +1,14 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { generateCallback } from '../lib/utils'
+import { generateCallback } from '../../lib/wayne'
 
-describe('utils.generateCallback', () => {
+describe('wayne.generateCallback', () => {
 
-  it('should export a function', () => {
+  it('should be a function', () => {
     expect(generateCallback).to.be.a('function')
   })
 
-  it('should return a function', () => {
+  it('should return a function when invoked', () => {
     expect(generateCallback()).to.be.a('function')
   })
 
