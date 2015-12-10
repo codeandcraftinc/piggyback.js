@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	module.exports = __webpack_require__(1).default;
+	module.exports = __webpack_require__(1).wrap;
 
 /***/ },
 /* 1 */
@@ -67,17 +67,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.generateCallback = generateCallback;
+	exports.hasCallback = hasCallback;
+	exports.invoke = invoke;
+	exports.notify = notify;
+	exports.wrap = wrap;
 
-	exports.default = function (key, fn, done) {
+	var _lie = __webpack_require__(2);
+
+	var _lie2 = _interopRequireDefault(_lie);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * @todo
+	 */
+	var STATE = {};
+
+	/**
+	 * @todo
+	 */
+	function generateCallback(resolve, reject) {
+	  return function (err) {
+	    if (err) {
+	      return reject(err);
+	    }
+
+	    resolve.apply.apply(resolve, [null].concat(Array.prototype.slice.call(arguments)));
+	  };
+	}
+
+	/**
+	 *
+	 */
+	function hasCallback(fn) {
+	  return (/^function \([\w\s,]+\)/.test(fn.toString())
+	  );
+	}
+
+	/**
+	 * @todo
+	 */
+	function invoke(fn) {
+	  return new _lie2.default(function (resolve, reject) {
+	    if (hasCallback(fn)) {
+	      fn(generateCallback(resolve, reject));
+	    } else {
+	      _lie2.default.resolve(fn()).then(resolve).catch(reject);
+	    }
+	  });
+	}
+
+	/**
+	 * @todo
+	 */
+	function notify(state, args) {
+	  state.notify.forEach(function (done) {
+	    return done.apply(null, args);
+	  });
+	}
+
+	/**
+	 * @todo
+	 */
+	function wrap(key, fn, done) {
 	  var state = STATE[key];
 
 	  if (!state) {
-	    var promise = (0, _utils.wrap)(fn).then(function (result) {
-	      (0, _utils.notify)(state, [null, result]);
+	    var promise = invoke(fn).then(function (result) {
+	      notify(state, [null, result]);
 	      delete STATE[key];
 	      return result;
 	    }).catch(function (err) {
-	      (0, _utils.notify)(state, [err]);
+	      notify(state, [err]);
 	      delete STATE[key];
 
 	      if (state.promise.queue) {
@@ -96,24 +158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  return state.promise;
-	};
-
-	var _lie = __webpack_require__(2);
-
-	var _lie2 = _interopRequireDefault(_lie);
-
-	var _utils = __webpack_require__(5);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * @todo
-	 */
-	var STATE = {};
-
-	/**
-	 * @todo
-	 */
+	}
 
 /***/ },
 /* 2 */
@@ -576,69 +621,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)))
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.generateCallback = generateCallback;
-	exports.hasCallback = hasCallback;
-	exports.wrap = wrap;
-	exports.notify = notify;
-
-	var _lie = __webpack_require__(2);
-
-	var _lie2 = _interopRequireDefault(_lie);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * @todo
-	 */
-	function generateCallback(resolve, reject) {
-	  return function (err) {
-	    if (err) {
-	      return reject(err);
-	    }
-
-	    resolve.apply.apply(resolve, [null].concat(Array.prototype.slice.call(arguments)));
-	  };
-	}
-
-	/**
-	 *
-	 */
-	function hasCallback(fn) {
-	  return (/^function \([\w\s,]+\)/.test(fn.toString())
-	  );
-	}
-
-	/**
-	 * @todo
-	 */
-	function wrap(fn) {
-	  return new _lie2.default(function (resolve, reject) {
-	    if (hasCallback(fn)) {
-	      fn(generateCallback(resolve, reject));
-	    } else {
-	      _lie2.default.resolve(fn()).then(resolve).catch(reject);
-	    }
-	  });
-	}
-
-	/**
-	 * @todo
-	 */
-	function notify(state, args) {
-	  state.notify.forEach(function (done) {
-	    return done.apply(null, args);
-	  });
-	}
 
 /***/ }
 /******/ ])
