@@ -1,6 +1,6 @@
-[![Build Status](https://api.travis-ci.org/codeandcraftnyc/wsnh.js.svg?branch=master)](https://travis-ci.org/codeandcraftnyc/wsnh.js)
+[![Build Status](https://api.travis-ci.org/codeandcraftnyc/wayne.js.svg?branch=master)](https://travis-ci.org/codeandcraftnyc/wayne.js)
 
-# wsnh.js
+# wayne.js
 
 Sometimes you have a function, and sometimes that function takes a while to
 execute. Sometimes other functions invoke that function while it's already
@@ -62,13 +62,13 @@ multiple times and waiting forever for both responses. So now what?
 
 ## Cool! (The Solution)
 
-Let's update `myRequest` with `wsnh`.
+Let's update `myRequest` with `wayne`.
 
 ```js
 function myRequest(params) {
   let key = `myRequest:${hashMyParams(params)}`
 
-  return wsnh(key, () => {
+  return wayne(key, () => {
     return cache.get(key).then((cached) => {
       if (cached) {
         return cached
@@ -83,8 +83,8 @@ function myRequest(params) {
 ```
 
 Now any duplicate request that happens in quick succession of the original
-will "piggyback" (excuse me) on the original's result, the API call and
-caching only happens once.
+will "piggyback" on the original's result, the API call and caching only
+happens once.
 
 
 
