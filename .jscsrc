@@ -1,0 +1,26 @@
+{
+  "esnext": true,
+  "disallowMixedSpacesAndTabs": true,
+  "disallowMultipleSpaces": true,
+  "disallowSpacesInsideParentheses": true,
+  "disallowSpacesInNamedFunctionExpression": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowTabs": true,
+  "disallowTrailingWhitespace": true,
+  requireCurlyBraces: {
+    allExcept: ['return', 'break', 'continue'],
+    keywords: true
+  },
+  "requireParenthesesAroundArrowParam": true,
+  "requireParenthesesAroundIIFE": true,
+  "requireSpaceAfterBinaryOperators": true,
+  "requireSpaceAfterComma": true,
+  "requireSpaceAfterKeywords": true,
+  "requireSpacesInAnonymousFunctionExpression": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true,
+    "allExcept": ["shorthand"]
+  },
+  "requireSpacesInsideObjectBrackets": "all",
+}
