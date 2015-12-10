@@ -72,7 +72,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var state = STATE[key];
 
 	  if (!state) {
-	    var promise = (0, _utils.promisify)(fn).then(function (result) {
+	    var promise = (0, _utils.wrap)(fn).then(function (result) {
 	      (0, _utils.notify)(state, [null, result]);
 	      delete STATE[key];
 	      return result;
@@ -80,22 +80,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	      (0, _utils.notify)(state, [err]);
 	      delete STATE[key];
 
-	      if (state.usedAsPromise) {
+	      if (state.promise.queue) {
 	        throw err;
 	      }
 	    });
 
 	    STATE[key] = state = {
 	      notify: [],
-	      promise: promise,
-	      usedAsPromise: !Boolean(done)
+	      promise: promise
 	    };
 	  }
-	  console.log(STATE);
+
 	  if (done) {
 	    state.notify.push(done);
-	  } else {
-	    state.usedAsPromise = true;
 	  }
 
 	  return state.promise;
@@ -591,7 +588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.generateCallback = generateCallback;
 	exports.hasCallback = hasCallback;
-	exports.promisify = promisify;
+	exports.wrap = wrap;
 	exports.notify = notify;
 
 	var _lie = __webpack_require__(2);
@@ -624,7 +621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @todo
 	 */
-	function promisify(fn) {
+	function wrap(fn) {
 	  return new _lie2.default(function (resolve, reject) {
 	    if (hasCallback(fn)) {
 	      fn(generateCallback(resolve, reject));
