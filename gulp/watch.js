@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 
 module.exports = function () {
-  gulp.watch(['lib/*.js', 'webpack.config.js'], ['webpack']);
+  gulp.watch(['lib/*.js', 'webpack.config.js'], ['build']);
 };
 
-module.exports.dependencies = ['webpack'];
+module.exports.dependencies = ['build'];

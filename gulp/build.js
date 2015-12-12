@@ -1,2 +1,5 @@
-var gutil = require('gulp-util');
-module.exports = gutil.noop;
+var run = require('run-sequence');
+
+module.exports = function (done) {
+  run('clean', 'webpack', 'uglify', 'banner', done);
+};

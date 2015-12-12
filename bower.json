@@ -1,0 +1,21 @@
+{
+  "name": "piggyback.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/codeandcraftnyc/piggyback.js",
+  "authors": [
+    "Michael Giuliana <michael.giuliana@gmail.com>"
+  ],
+  "description": "Reuse function results for multiple callers",
+  "main": "dist/piggyback.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
