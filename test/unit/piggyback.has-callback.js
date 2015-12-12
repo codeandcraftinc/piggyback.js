@@ -1,8 +1,8 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { hasCallback } from '../../lib/wayne'
+import { hasCallback } from '../../lib/piggyback'
 
-describe('wayne.hasCallback', () => {
+describe('piggyback.hasCallback', () => {
 
   it('should be a function', () => {
     expect(hasCallback).to.be.a('function')

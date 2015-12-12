@@ -1,9 +1,9 @@
 import Promise from 'lie'
 import sinon from 'sinon'
 import { expect } from 'chai'
-import { notify } from '../../lib/wayne'
+import { notify } from '../../lib/piggyback'
 
-describe('wayne.notify', () => {
+describe('piggyback.notify', () => {
 
   it('should be a function', () => {
     expect(notify).to.be.a('function')

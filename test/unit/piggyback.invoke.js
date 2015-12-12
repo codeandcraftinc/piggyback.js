@@ -1,8 +1,8 @@
 import Promise from 'lie'
 import { expect } from 'chai'
-import { invoke } from '../../lib/wayne'
+import { invoke } from '../../lib/piggyback'
 
-describe('wayne.invoke', () => {
+describe('piggyback.invoke', () => {
 
   it('should be a function', () => {
     expect(invoke).to.be.a('function')

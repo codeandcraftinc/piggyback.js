@@ -4,8 +4,8 @@ module.exports = {
   entry: './lib/index.js',
   output: {
     path: './dist',
-    filename: 'wayne.js',
-    library: 'wayne',
+    filename: 'piggyback.js',
+    library: 'piggyback',
     libraryTarget: 'umd'
   },
   module: {
