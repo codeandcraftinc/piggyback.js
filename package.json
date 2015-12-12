@@ -1,13 +1,16 @@
 {
   "name": "piggyback.js",
-  "version": "0.1.0",
-  "description": "",
-  "main": "dist/piggyback.js",
+  "version": "0.0.1",
+  "description": "Reuse function results for multiple callers",
+  "main": "./dist/piggyback.js",
   "scripts": {
-    "start": "node_modules/gulp/bin/gulp.js",
-    "test": "node_modules/gulp/bin/gulp.js test"
+    "start": "./node_modules/gulp/bin/gulp.js",
+    "test": "./node_modules/gulp/bin/gulp.js test"
   },
-  "keywords": [],
+  "keywords": [
+    "wrap",
+    "reuse"
+  ],
   "author": "Michael Giuliana <mike@codeandcraft.nyc>",
   "license": "MIT",
   "dependencies": {},
