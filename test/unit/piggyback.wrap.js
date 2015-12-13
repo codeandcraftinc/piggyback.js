@@ -13,11 +13,15 @@ describe('piggyback.wrap', () => {
     expect(wrap('1', () => {})).to.be.an.instanceOf(Promise)
   })
 
-  it('should invoke the wrapped fn once when invoked quickly', () => {
+  it('should accept a fn as the first param', () => {
+    expect(wrap(() => {})).to.be.an.instanceOf(Promise)
+  })
+
+  it('should invoke the wrapped fn once when invoked quickly', (done) => {
     let spy = sinon.spy()
 
     let wrapped = () => {
-      return wrap('uniquekey', () => {
+      return wrap('2', () => {
         return new Promise((resolve, reject) => {
           spy()
           setTimeout(resolve, 500)
@@ -27,14 +31,15 @@ describe('piggyback.wrap', () => {
 
     Promise.all([wrapped(), wrapped()]).then(() => {
       expect(spy.calledOnce).to.be.true
+      done()
     })
   })
 
-  it('should invoke the wrapped fn twice when invoked slowly', () => {
+  it('should invoke the wrapped fn twice when invoked slowly', (done) => {
     let spy = sinon.spy()
 
     let wrapped = () => {
-      return wrap('uniquekey', () => {
+      return wrap('3', () => {
         return new Promise((resolve, reject) => {
           spy()
           setTimeout(resolve, 500)
@@ -44,45 +49,45 @@ describe('piggyback.wrap', () => {
 
     wrapped().then(wrapped).then(() => {
       expect(spy.calledTwice).to.be.true
+      done()
     })
   })
 
-  it('should be rejected if the promise interface is used and the main fn throws', () => {
-    let promise = wrap('1', () => {
-      throw 'err'
-    }).then(() => {})
-
-    expect(promise).to.be.rejected
+  it('should be fulfilled if the promise interface is used and the main fn succeeds', (done) => {
+    let promise = wrap('4', () => {})
+    expect(promise).to.eventually.be.fulfilled.and.notify(done)
   })
 
-  it('should be fulfilled if the promise interface is NOT used and the main fn throws', () => {
-    let promise = wrap('1', () => {
-      throw 'err'
+  it('should be rejected if the promise interface is used and the main fn throws', (done) => {
+    let promise = wrap('5', () => {
+      throw 'promise err'
     })
 
-    expect(promise).to.be.fulfilled
+    expect(promise).to.eventually.be.rejected.and.notify(done)
   })
 
-  it('should invoke the callback with a truthy first param if main fn throws', () => {
+  it('should invoke the callback with a truthy first param if main fn throws', (done) => {
     let spy = sinon.spy()
 
-    wrap('1', () => {
-      throw 'err'
+    wrap('6', () => {
+      throw 'callback err'
     }, spy)
 
     setTimeout(() => {
       expect(spy.calledOnce).to.be.true
-      expect(spy.alwaysCalledWithExactly('err')).to.be.true
+      expect(spy.alwaysCalledWithExactly('callback err')).to.be.true
+      done()
     }, 0)
   })
 
-  it('should invoke the callback with a falsey first param if main fn succeeds', () => {
+  it('should invoke the callback with a falsy first param if main fn succeeds', (done) => {
     let spy = sinon.spy()
-    wrap('1', () => {}, spy)
+    wrap('7', () => {}, spy)
 
     setTimeout(() => {
       expect(spy.calledOnce).to.be.true
-      expect(spy.args[0]).to.be.an('undefined')
+      expect(spy.args[0][0]).to.not.be.ok
+      done()
     }, 0)
   })
 

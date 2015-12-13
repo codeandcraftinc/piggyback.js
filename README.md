@@ -90,6 +90,12 @@ only happens once.
 
 
 
+## Installation
+
+`npm install piggyback.js`
+
+
+
 ## License
 
 The MIT License (MIT)

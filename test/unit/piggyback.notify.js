@@ -9,15 +9,15 @@ describe('piggyback.notify', () => {
     expect(notify).to.be.a('function')
   })
 
-  it('should invoke all fns in state.notify once', () => {
+  it('should invoke all fns once', () => {
     let cb = sinon.spy()
-    notify({ notify: [cb, cb, cb] })
+    notify([cb, cb, cb])
     expect(cb.calledThrice).to.be.true
   })
 
-  it('should pass args to all fns in state.notify', () => {
+  it('should pass args to all fns', () => {
     let cb = sinon.spy()
-    notify({ notify: [cb, cb, cb] }, [1, 2, 3])
+    notify([cb, cb, cb], [1, 2, 3])
     expect(cb.alwaysCalledWithExactly(1, 2, 3)).to.be.true
   })
 
