@@ -5,7 +5,7 @@
 Sometimes you have a function, and sometimes that function takes a while to
 execute. Sometimes other functions invoke that function while it's already
 executing, making it execute again and again. Maybe that even happens a few
-more times. But in this arbitrary example, all of those functions that called
+more times. But in this contrived example, all of those functions that called
 the original function (the one that takes a while), they just want the same
 thing.
 
