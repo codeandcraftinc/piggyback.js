@@ -9,18 +9,97 @@ more times. But in this arbitrary example, all of those functions that called
 the original function (the one that takes a while), they just want the same
 thing.
 
-What if we just used the result from the first invocation for everything?
+What if we just used the result from the first invocation for all simultaneous
+calls?
 
 
 
-## Huh? (The Problem)
+## Installation
+
+```sh
+npm install piggyback.js
+```
+
+
+
+## Quick Start
+
+### Callbacks
+
+```js
+import piggyback from 'piggyback.js'
+
+function fn(done) {
+  piggyback((cb) => {
+    console.log('fn executing...')
+    setTimeout(cb.bind(null, null, Math.random()), 1000)
+  }, done)
+}
+
+fn(console.log.bind(console, 'fn1'))
+fn(console.log.bind(console, 'fn2'))
+
+// fn executing...
+// fn1 null 0.8684732124675065
+// fn2 null 0.8684732124675065
+```
+
+### Promises
+
+```js
+import Promise from 'bluebird'
+import piggyback from 'piggyback.js'
+
+function fn() {
+  return piggyback(() => {
+    return new Promise((resolve) => {
+      console.log('fn executing...')
+      setTimeout(resolve.bind(null, Math.random()), 1000)
+    })
+  })
+}
+
+fn().then(console.log.bind(console, 'fn1'))
+fn().then(console.log.bind(console, 'fn2'))
+
+// fn executing...
+// fn1 null 0.8684732124675065
+// fn2 null 0.8684732124675065
+```
+
+
+
+### Functions With Arguments
+
+So far we've only seen piggybacked functions that don't accept any arguments,
+but that's a fairly limited use-case. Most of the time your long-running
+functions will take parameters that alter their behavior. In those cases you
+may provide piggyback with a unique identifier for that particular combination
+of parameters using a method of your choosing.
+
+```js
+import piggyback from 'piggyback.js'
+import hash from 'object-hash'
+
+function fn(opts = {}, done) {
+  let key = `fn:${hash(opts)}`
+
+  piggyback(key, (cb) => {
+    // do things...
+    cb()
+  }, done)
+}
+```
+
+
+
+## A More Extensive Use Case
 
 You need to make a call. A call to an API somewhere. So you make a function,
 `myRequest`, to handle that API call. Let's say you've even added a caching
-mechanism since that call may take _seconds_ to complete -- the next time you
-make the same call it'll finish a lot faster.
-
-> Warning: pseudo-code below, hopefully it's clear enough
+mechanism since that call may take _seconds_ to complete so the next time you
+make the same call it'll finish a lot faster. Pseudo-code below, hopefully
+it's clear enough...
 
 ```js
 function myRequest(params) {
@@ -58,15 +137,9 @@ such short succession that there's no chance to cache the result from the
 first invocation and use it for the second. Hrmph. We end up hitting the API
 multiple times and waiting forever for both responses. So now what?
 
-
-
-## Cool! (The Solution)
-
 Let's update `myRequest` with `piggyback.js`.
 
 ```js
-import piggyback from 'piggyback.js'
-
 function myRequest(params) {
   let key = `myRequest:${hashMyParams(params)}`
 
@@ -87,12 +160,6 @@ function myRequest(params) {
 Now any duplicate request that happens in quick succession of the original
 will "piggyback" on the original request's result, the API call and caching
 only happens once.
-
-
-
-## Installation
-
-`npm install piggyback.js`
 
 
 
