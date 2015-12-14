@@ -110,8 +110,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Invoke the given function and return a `Promise`. `fn` must either return
-	 * a `Promise` or accept a single callback that it will invoke upon
+	 * Invoke the given function and return a `Promise`. `fn` must a) return a
+	 * `Promise`, or b) accept a single callback that it will invoke upon
 	 * completion.
 	 *
 	 * @param {function} fn A function to invoke and wrap in a `Promise`.
@@ -120,15 +120,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	function invoke(fn) {
 	  return new _lie2.default(function (resolve, reject) {
 	    var done = generateCallback(resolve, reject);
-	    _lie2.default.resolve(fn(done)).then(resolve).catch(reject);
+	    var promise = fn(done);
+
+	    if (promise && promise.then) {
+	      _lie2.default.resolve(promise).then(resolve).catch(reject);
+	    }
 	  });
 	}
 
 	/**
-	 * Iterates over `fns` and invokes `apply()` using `args`
+	 * Iterate over `fns` and invokes `apply()` using `args`.
 	 *
 	 * @param {function[]} fns An array of functions.
-	 * @param {*[]} args An array of args to invoke each function in `fns` with.
+	 * @param {mixed[]} args An array of args to invoke each function in `fns` with.
 	 * @returns {undefined}
 	 */
 	function notify(fns, args) {
@@ -138,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Wrap a function to prevent it from processing simultaneously
+	 * Wrap a function to prevent it from processing simultaneously.
 	 *
 	 * @param {string} key A unique identifier.
 	 * @param {function} fn The function to wrap.

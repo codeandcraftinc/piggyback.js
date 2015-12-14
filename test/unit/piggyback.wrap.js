@@ -54,13 +54,16 @@ describe('piggyback.wrap', () => {
   })
 
   it('should be fulfilled if the promise interface is used and the main fn succeeds', (done) => {
-    let promise = wrap('4', () => {})
+    let promise = wrap('4', () => {
+      return Promise.resolve()
+    })
+
     expect(promise).to.eventually.be.fulfilled.and.notify(done)
   })
 
-  it('should be rejected if the promise interface is used and the main fn throws', (done) => {
+  it('should be rejected if the promise interface is used and the main fn rejects', (done) => {
     let promise = wrap('5', () => {
-      throw 'promise err'
+      return Promise.reject()
     })
 
     expect(promise).to.eventually.be.rejected.and.notify(done)
@@ -82,7 +85,7 @@ describe('piggyback.wrap', () => {
 
   it('should invoke the callback with a falsy first param if main fn succeeds', (done) => {
     let spy = sinon.spy()
-    wrap('7', () => {}, spy)
+    wrap('7', (cb) => cb(), spy)
 
     setTimeout(() => {
       expect(spy.calledOnce).to.be.true
