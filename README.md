@@ -97,9 +97,8 @@ function fn(opts = {}, done) {
 
 You need to make a call. A call to an API somewhere. So you make a function,
 `myRequest`, to handle that API call. Let's say you've even added a caching
-mechanism since that call may take _seconds_ to complete so the next time you
-make the same call it'll finish a lot faster. Pseudo-code below, hopefully
-it's clear enough...
+mechanism since that call may take _seconds_ to complete, the next time you
+make the same call it'll utilize the cache and finish a lot faster.
 
 ```js
 function myRequest(params) {
