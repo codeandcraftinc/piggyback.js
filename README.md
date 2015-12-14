@@ -157,8 +157,8 @@ function myRequest(params) {
 ```
 
 Now any duplicate request that happens in quick succession of the original
-will "piggyback" on the original request's result, the API call and caching
-only happens once.
+will piggyback (_ahem_) on the original request's execution and receive the
+same result once it's complete -- the API call and caching only happen once.
 
 
 
