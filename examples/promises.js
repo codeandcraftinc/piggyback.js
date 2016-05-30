@@ -1,48 +1,14 @@
-import Promise from 'lie'
+import Promise from 'bluebird'
 import piggyback from '../lib'
 
-/**
- *
- */
-function slowFn() {
-  return new Promise((resolve) => {
-    let sieve = [], i, j, primes = []
-
-    for (i = 2; i <= 1000000; ++i) {
-      if (!sieve[i]) {
-        primes.push(i)
-        for (j = i << 1; j <= 1000000; j += i) {
-          sieve[j] = true
-        }
-      }
-    }
-
-    resolve(primes)
+function fn() {
+  return piggyback(() => {
+    return new Promise((resolve) => {
+      console.log('fn executing...')
+      setTimeout(resolve.bind(null, Math.random()), 1000)
+    })
   })
 }
 
-/**
- *
- */
-function piggied() {
-  return piggyback(slowFn)
-}
-
-/**
- *
- */
-function handleResults(str) {
-  return (results) => {
-    results.forEach((v, k) => {
-      console.log('%s:%s - %s primes found', str, k, v.length)
-    })
-
-    console.timeEnd(str)
-  }
-}
-
-console.time('slowFn')
-Promise.all([slowFn(), slowFn()]).then(handleResults('slowFn'))
-
-console.time('piggied')
-Promise.all([piggied(), piggied()]).then(handleResults('piggied'))
+fn().then(console.log.bind(console, 'fn1'))
+fn().then(console.log.bind(console, 'fn2'))
